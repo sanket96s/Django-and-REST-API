@@ -76,3 +76,33 @@ class Boook(models.Model):
     
     def __str__(self):
         return self.title
+    
+# 4. Simple To-Do List
+#         Create a model Task with the following fields:
+#         title (CharField)
+#         description (TextField)
+#         due_date (DateField)
+#         status (BooleanField, representing completed/incomplete)
+#         Create migrations and apply them.
+
+class Task(models.Model):
+    status_choices=[
+        (True,"complete"),
+        (False,"incomplete")
+    ]
+    title = models.CharField(max_length=50)
+    description = models.TextField(max_length=250)
+    due_date = models.DateField()
+    status = models.BooleanField(choices=status_choices,default=False)
+    
+# 5. User Profile
+#         Create a Profile model with the following fields:
+#         user (OneToOneField linking to Django’s User model)
+#         phone_number (CharField)
+#         address (TextField)
+#         Add migrations and apply them.
+
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=10)
+    address = models.TextField()

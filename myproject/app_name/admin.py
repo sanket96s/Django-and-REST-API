@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book,User,Post,Product,Member,Boook
+from .models import Book,User,Post,Product,Member,Boook,Task,Profile
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title','author','published_date')
@@ -12,3 +12,5 @@ admin.site.register(Post)
 admin.site.register(Product)
 admin.site.register(Member)
 admin.site.register(Boook)
+admin.site.register(Task)
+admin.site.register(Profile)
