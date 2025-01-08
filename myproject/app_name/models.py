@@ -10,6 +10,3 @@ book = Book(title="Django Basics", author="John Doe", published_date="2023-01-01
 book.save()
 
 books = Book.objects.all()
-
-class Ecommerse(models.Model):
-    product_id = models.IntegerField()
