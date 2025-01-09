@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 
 def home(request):
-    return HttpResponse("Hello ! this is starting of view")
+    return HttpResponse("Hello ! this is starting of functional view")
 
 class HomeView(View):
     def get(self, request):
