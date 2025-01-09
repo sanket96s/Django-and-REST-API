@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import timedelta
+from django.utils.timezone import now
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
@@ -6,10 +8,10 @@ class Book(models.Model):
     published_date = models.DateField()
     price = models.DecimalField(max_digits=10,decimal_places=2)
     
-book = Book(title="Django Basics", author="John Doe", published_date="2023-01-01", price=19.99)
-book.save()
+# book = Book(title="Django Basics", author="John Doe", published_date="2023-01-01", price=19.99)
+# book.save()
 
-books = Book.objects.all()
+# books = Book.objects.all()
 
 
 # 1. Create a Simple Blog Application
@@ -20,14 +22,45 @@ books = Book.objects.all()
 #       author (ForeignKey to a User model)
 #       Create a migration and apply it to the database.
 
+
+# 1. Blog with Categories and Tags
+#         Extend the blog application:
+#         Create a Category model with:
+#         name (CharField)
+#         slug (SlugField)
+#         Create a Tag model with:
+#         name (CharField)
+#         slug (SlugField)
+#         Update the Post model to include:
+#         categories (ManyToManyField linked to Category)
+#         tags (ManyToManyField linked to Tag)
+#         Add a custom manager to filter posts published in the last 30 days.
+#         Add migrations and ensure data integrity.
+
+class Category(models.Model):
+    name = models.CharField(max_length=25)
+    slug = models.SlugField()
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=25)
+    slug = models.SlugField()
+
 class User(models.Model):
     name = models.CharField(max_length=45)
+    
+class PostManager(models.Manager):
+    def recent_posts(self):
+        return self.filter(created_at__gte=now() - timedelta(days=30))
     
 class Post(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField(max_length=200)
     published_date = models.DateField()
     author = models.ForeignKey(User,on_delete=models.CASCADE)
+    category = models.ManyToManyField(Category,related_name="post")
+    tag = models.ManyToManyField(Tag,related_name="post")
+    
+    object = PostManager()
     
 # 2. E-commerce Product Catalog
 #         Create a Product model with these fields:
@@ -106,3 +139,4 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=10)
     address = models.TextField()
+    
